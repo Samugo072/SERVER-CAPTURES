@@ -17,8 +17,11 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 app.post('/upload', upload.single('files[]'), (req, res) => {
-  res.status(50).send('ok');
-});
+  if (!req.file) {
+    return res.status(400).send('No file uploaded.')
+  }
+  res.status(200).send('ok')
+})
 
 app.listen(port, () => {
   console.log(`Servidor iniciado en http://127.0.0.1:${port}`);
